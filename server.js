@@ -1,6 +1,7 @@
 var port = 8124,
     url = 'localhost',
 
+    fs = require('fs'),
     http = require('http'),
     restful = require('restful'),
     resourceful = require('resourceful'),
@@ -8,6 +9,10 @@ var port = 8124,
     exec = require('child_process').exec;
 
 function puts(error, stdout, stderr) { sys.puts(stdout); }
+
+/*
+ * Echo module
+ * */
 
 var Echo = resourceful.define('echo', function () {
 	this.use('memory');
@@ -25,7 +30,26 @@ Echo.create = function (data, callback) {
 	callback(null, { msg: 'Echo ' + data.msg});
 };
 
-var router = restful.createRouter([Echo]);
+/*
+ * Spotify module
+ * */
+var Spotify = resourceful.define('spotify', function () {
+	this.use('memory');
+});
+
+Spotify.create = function (data, callback) {
+	if (!data || !data.method) {
+		callback({ msg: 'Must provide { method: <method> } as argument' });
+		return;
+	}
+
+	exec('spotify ' + data.method, puts);
+
+	callback(null, { msg: 'Method ' + data.method + ' performed'});
+};
+
+
+var router = restful.createRouter([Echo, Spotify]);
 
 var server = http.createServer(function (req, res) {
 	req.chunks = [];
@@ -34,10 +58,18 @@ var server = http.createServer(function (req, res) {
 	});
 
 	router.dispatch(req, res, function (err) {
-		if(err) {
+
+		var file, url = req.url;
+
+		try {
+			file = fs.readFileSync('./' + url);
+			res.writeHead(200, { 'Content-Type': 'text/html' });
+			res.end(file);
+		} catch(e) {
 			res.writeHead(404);
 			res.end();
 		}
+
 		console.log('Served', req.url);
 	});
 });
