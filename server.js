@@ -9,21 +9,23 @@ var port = 8124,
 
 function puts(error, stdout, stderr) { sys.puts(stdout); }
 
-var Control = resourceful.define('control', function () {
+var Echo = resourceful.define('echo', function () {
 	this.use('memory');
 });
 
-Control.create = function (data, callback) {
+Echo.create = function (data, callback) {
 
-	data = data || {};
-	data.method = data.method || 'play';
+	if (!data || !data.msg) {
+		callback({ msg: 'Must provide { msg: <msg> } as argument'});
+		return;
+	}
 
-	exec('./controls ' + data.method, puts);
+	exec('./echo/echo ' + data.msg, puts);
 
-	callback(null, { error: false });
+	callback(null, { msg: 'Echo ' + data.msg});
 };
 
-var router = restful.createRouter([Control]);
+var router = restful.createRouter([Echo]);
 
 var server = http.createServer(function (req, res) {
 	req.chunks = [];
