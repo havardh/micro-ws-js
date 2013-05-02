@@ -37,15 +37,44 @@ var Spotify = resourceful.define('spotify', function () {
 	this.use('memory');
 });
 
+Array.prototype.contains = function (el) {
+	for (var i in this) {
+		if (this[i] === el) {
+			return true;
+		}
+	}
+	return false;
+ };
+
 Spotify.create = function (data, callback) {
+	var method,
+	    arr = ['play', 'pause', 'prev', 'next', 'status'];
+
 	if (!data || !data.method) {
 		callback({ msg: 'Must provide { method: <method> } as argument' });
 		return;
 	}
 
-	exec('spotify ' + data.method, puts);
+	method = data.method;
 
-	callback(null, { msg: 'Method ' + data.method + ' performed'});
+	if ( ! (arr.contains(method)) ) {
+		callback({ msg: 'Method is not supported: ' + method });
+		return;
+	}
+
+	exec('spotify ' + data.method, function (err, stdout, stderr) {
+
+		if (err) {
+			callback(err);
+			return;
+		}
+
+		callback(null, {
+			msg: 'Method ' + data.method + ' performed',
+			stdout: stdout,
+			stderr: stderr
+		});
+	});
 };
 
 

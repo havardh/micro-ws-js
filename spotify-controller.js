@@ -3,18 +3,29 @@
 	var url = 'spotifies';
 
 	function make_action(action) {
-
+		var $status = this.$div.find('input[name=status]');
 		return function () {
-			$.post(url, {method: action});
+			$.ajax({
+				url: url,
+				method: 'POST',
+				dataType: 'json',
+				data: {method: action},
+				success:function (data) {
+					var msg = data.spotify.stderr;
+					var start = msg.indexOf('m:') + 3;
+
+					$status.val(msg.substring(start));
+				}
+			});
 		};
 	}
 
 	function make_listener(action) {
-		var callback = make_action(action);
+		var callback = make_action.call(this, action);
 		this.$div.find('button[name='+action+']').click(callback);
 	}
 
-	var actions = ['prev', 'play', 'pause', 'next'];
+	var actions = ['prev', 'play', 'pause', 'next', 'status'];
 
 	function listeners() {
 		for (var i in actions) {
