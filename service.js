@@ -1,8 +1,9 @@
-var resourceful = require('resourceful'),
+var fs = require('fs'),
+    resourceful = require('resourceful'),
     sys = require('sys'),
     exec = require('child_process').exec;
 
-module.exports = function (options) {
+function createService (options) {
 
 	var name = options.name;
 	var cmd = options.cmd;
@@ -20,10 +21,8 @@ module.exports = function (options) {
 			return;
 		}
 
-		method = data.method;
-
-		if ( ! (methods.contains(method)) ) {
-			callback({ msg: 'Method is not supported: ' + method });
+		if ( ! (methods.contains(data.method)) ) {
+			callback({ msg: 'Method is not supported: ' + data.method });
 			return;
 		}
 
@@ -44,3 +43,20 @@ module.exports = function (options) {
 
 	return service;
 }
+
+function listServices() {
+	return fs.readdirSync('services');
+}
+
+function readServiceConfig(service) {
+
+	var file = fs.readFileSync('services/' + service + '/config.json', 'utf8');
+	var json = JSON.parse(file);
+	return json;
+}
+
+function loadServices() {
+	return listServices().map(readServiceConfig).map(createService);
+}
+
+module.exports.loadServices = loadServices;

@@ -1,7 +1,7 @@
 var port = 8080,
     url = '192.168.0.196',
 
-    service = require('./service.js'),
+    loadServices = require('./service.js').loadServices,
     fs = require('fs'),
     http = require('http'),
     restful = require('restful'),
@@ -19,21 +19,6 @@ Array.prototype.contains = function (el) {
 	}
 	return false;
 };
-
-function listServices() {
-	return fs.readdirSync('services');
-}
-
-function readServiceConfig(service) {
-
-	var file = fs.readFileSync('services/' + service + '/config.json', 'utf8');
-	var json = JSON.parse(file);
-	return json;
-}
-
-function loadServices() {
-	return listServices().map(readServiceConfig).map(service);
-}
 
 var Services = loadServices();
 
