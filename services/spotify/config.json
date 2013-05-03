@@ -1,0 +1,5 @@
+{
+    'name': 'spotify',
+    'cmd': 'spotify',
+    'methods': ['play', 'pause', 'next', 'prev', 'status']
+}
