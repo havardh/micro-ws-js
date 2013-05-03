@@ -45,7 +45,24 @@ var Spotify = service({
 	methods: ['play', 'pause', 'next', 'prev', 'status']
 });
 
-var router = restful.createRouter([Echo, Spotify]);
+function listServices() {
+	return fs.readdirSync('services');
+}
+
+function readServiceConfig(service) {
+
+	var file = fs.readFileSync('services/' + service + '/config.json', 'utf8');
+	var json = JSON.parse(file);
+	return json;
+}
+
+function loadServices() {
+	return listServices().map(readServiceConfig).map(service);
+}
+
+var Services = loadServices();
+
+var router = restful.createRouter(Services);
 
 var server = http.createServer(function (req, res) {
 	req.chunks = [];
