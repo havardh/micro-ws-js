@@ -11,15 +11,6 @@ var port = 8080,
 
 function puts(error, stdout, stderr) { sys.puts(stdout); }
 
-Array.prototype.contains = function (el) {
-	for (var i in this) {
-		if (this[i] === el) {
-			return true;
-		}
-	}
-	return false;
-};
-
 var Services = loadServices();
 
 var router = restful.createRouter(Services);

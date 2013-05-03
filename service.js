@@ -21,7 +21,7 @@ function createService (options) {
 			return;
 		}
 
-		if ( ! (methods.contains(data.method)) ) {
+		if ( ! (methods.indexOf(data.method) !== -1) ) {
 			callback({ msg: 'Method is not supported: ' + data.method });
 			return;
 		}
