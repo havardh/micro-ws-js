@@ -1,6 +1,7 @@
 var port = 8080,
     url = '192.168.0.196',
 
+    service = require('./service.js'),
     fs = require('fs'),
     http = require('http'),
     restful = require('restful'),
@@ -38,51 +39,7 @@ Echo.create = function (data, callback) {
 	callback(null, { msg: 'Echo ' + data.msg});
 };
 
-
-function makeService(options) {
-
-	var name = options.name;
-	var cmd = options.cmd;
-
-
-	var service = resourceful.define(name, function () {
-		this.use('memory');
-	});
-
-	service.create = function (data, callback) {
-		var method, methods = options.methods;
-
-		if (!data || !data.method) {
-			callback({ msg: 'Must provide { method: <method> } as argument' });
-			return;
-		}
-
-		method = data.method;
-
-		if ( ! (methods.contains(method)) ) {
-			callback({ msg: 'Method is not supported: ' + method });
-			return;
-		}
-
-		exec(cmd + ' ' + data.method, function (err, stdout, stderr) {
-
-			if (err) {
-				callback(err);
-				return;
-			}
-
-			callback(null, {
-				msg: 'Method ' + data.method + ' performed',
-				stdout: stdout,
-				stderr: stderr
-			});
-		});
-	};
-
-	return service;
-}
-
-var Spotify = makeService({
+var Spotify = service({
 	name: 'spotify',
 	cmd: 'spotify',
 	methods: ['play', 'pause', 'next', 'prev', 'status']
