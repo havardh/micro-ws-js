@@ -20,31 +20,6 @@ Array.prototype.contains = function (el) {
 	return false;
 };
 
-/*
- * Echo module
- * */
-var Echo = resourceful.define('echo', function () {
-	this.use('memory');
-});
-
-Echo.create = function (data, callback) {
-
-	if (!data || !data.msg) {
-		callback({ msg: 'Must provide { msg: <msg> } as argument'});
-		return;
-	}
-
-	exec('./echo/echo ' + data.msg, puts);
-
-	callback(null, { msg: 'Echo ' + data.msg});
-};
-
-var Spotify = service({
-	name: 'spotify',
-	cmd: 'spotify',
-	methods: ['play', 'pause', 'next', 'prev', 'status']
-});
-
 function listServices() {
 	return fs.readdirSync('services');
 }
