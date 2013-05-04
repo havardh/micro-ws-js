@@ -21,10 +21,10 @@ function createService (options) {
 			return;
 		}
 
-		if ( ! (methods.indexOf(data.method) !== -1) ) {
+		/*if ( ! (methods.indexOf(data.method) !== -1) ) {
 			callback({ msg: 'Method is not supported: ' + data.method });
 			return;
-		}
+		}*/
 
 		exec(cmd + ' ' + data.method, function (err, stdout, stderr) {
 
@@ -55,8 +55,14 @@ function readServiceConfig(service) {
 	return json;
 }
 
-function loadServices() {
-	return listServices().map(readServiceConfig).map(createService);
+function listConfigurations() {
+	return listServices().map(readServiceConfig);
 }
 
+function loadServices(config) {
+	config = config || listConfigurations();
+	return config.map(createService);
+}
+
+module.exports.listConfigurations = listConfigurations;
 module.exports.loadServices = loadServices;
