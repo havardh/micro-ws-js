@@ -1,6 +1,6 @@
 (function ($) {
 
-	var url = 'spotifies';
+	var url = 'spotify';
 
 	function make_action(action) {
 		var $status = this.$div.find('input[name=status]');
