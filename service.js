@@ -79,23 +79,33 @@ function createService (options) {
 
 	var name = options.name;
 	var index = options.index;
-	var cmd = options.cmd;
+	var program = options.cmd;
+	var argmap = options.argmap && options.argmap[process.platform];
 
 	function post (data, callback) {
-		var method, methods = options.methods;
+		var methods = options.methods;
 
+		/*
 		if (!data || !data.method) {
 			callback({ msg: 'Must provide { method: <method> } as argument' });
 			return;
+		}*/
+
+		if ( methods && ! (methods.indexOf(data.method) !== -1) ) {
+			callback({ msg: 'Method is not supported: ' + data.method });
+			return;
 		}
 
-		/*if ( ! (methods.indexOf(data.method) !== -1) ) {
-		 callback({ msg: 'Method is not supported: ' + data.method });
-		 return;
-		 }*/
+		var method = data.method;
+		var arg = data.arg;
+		if (argmap) arg = argmap[arg];
 
-		exec(cmd + ' ' + data.method, function (err, stdout, stderr) {
+		var cmd = program;
+		if (method) cmd += ' ' + method;
+		if (arg) cmd += ' ' + arg;
 
+		console.log('exec:', cmd);
+		exec(cmd, function (err, stdout, stderr) {
 			if (err) {
 				callback(err);
 				return;
