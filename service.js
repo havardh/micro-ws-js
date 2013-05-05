@@ -38,11 +38,12 @@ function renderService(service) {
 }
 
 function renderServices(services) {
-	return '<ul><li>' + services.map(renderService).join('</li><li>') + '</li></ul>';
+	return '<ul class="nav nav-tabs nav-stacked"><li>' + services.map(renderService).join('</li><li>') + '</li></ul>';
 }
 
 function renderIndex(services) {
-	var head = '';
+	var head = '<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">';
+	head += '<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>';
 	var body = renderServices(services);
 
 	return "<html><head>"+head+"<head><body>"+body+"</body></html>";
