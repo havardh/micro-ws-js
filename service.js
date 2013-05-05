@@ -77,10 +77,12 @@ function createRouter(services) {
 
 function createService (options) {
 
+	var platform = process.platform;
+
 	var name = options.name;
 	var index = options.index;
-	var program = options.cmd;
-	var argmap = options.argmap && options.argmap[process.platform];
+	var program = options.program[platform];
+	var argmap = options.argmap && options.argmap[platform];
 
 	function post (data, callback) {
 		var methods = options.methods;

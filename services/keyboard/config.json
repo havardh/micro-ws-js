@@ -1,6 +1,7 @@
 {
     "name": "keyboard",
-    "cmd": "./services/keyboard/keyboard",
+    "program": { "darwin": "./services/keyboard/keyboard",
+	     "win32": "./services/keyboard/keyboard.exe"},
     "argmap": {
 	"darwin":
 	{
