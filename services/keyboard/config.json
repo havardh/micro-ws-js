@@ -1,7 +1,7 @@
 {
     "name": "keyboard",
     "program": { "darwin": "./services/keyboard/keyboard",
-	     "win32": "./services/keyboard/keyboard.exe"},
+	     "win32": "E:\\Projects\\micro-ws-js\\services\\keyboard\\win\\keyboard.exe"},
     "argmap": {
 	"darwin":
 	{

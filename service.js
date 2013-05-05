@@ -108,6 +108,7 @@ function createService (options) {
 
 		console.log('exec:', cmd);
 		exec(cmd, function (err, stdout, stderr) {
+			console.log(err);
 			if (err) {
 				callback(err);
 				return;
