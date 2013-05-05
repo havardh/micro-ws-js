@@ -2,6 +2,7 @@
 #define WINVER 0x0500
 #include <Windows.h>
 #include <WinUser.h>
+#include <cctype>
 
 void pressKey(int keycode) {
 	INPUT ip;
@@ -25,9 +26,24 @@ int main(int argc, char *argv[]) {
 		return 0;
 	}
 
-	int keycode = atoi(argv[1]);
+	char *input = argv[1];
 
-	pressKey(keycode);
+	int keycode = 0;
+	if (strlen(input) == 1) {
+		keycode = toupper(argv[1][0]);
+	} else if (strcmp(input, "return") == 0) {
+		keycode = VK_RETURN;
+	} else if (strcmp(input, "delete") == 0) {
+		keycode = VK_BACK;
+	} else if (strcmp(input, "tab") == 0) {
+		keycode = VK_TAB;
+	} else if (strcmp(input, "caps") == 0) {
+		keycode = VK_CAPITAL;
+	}
+
+	if (keycode != 0) {
+		pressKey(keycode);
+	}
 	
 	return 0;
 }
