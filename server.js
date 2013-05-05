@@ -1,5 +1,4 @@
-var port = 8080,
-    url = '78.91.39.220', //'192.168.0.196',
+var port, host,
 
     mustache = require('mustache'),
     service = require('./service.js'),
@@ -7,6 +6,13 @@ var port = 8080,
     http = require('http'),
     sys = require('sys'),
     exec = require('child_process').exec;
+
+(function () {
+	var file = fs.readFileSync('config.json');
+	var config = JSON.parse(file);
+	port = config.port;
+	host = config.host;
+}());
 
 function puts(error, stdout, stderr) { sys.puts(stdout); }
 
@@ -51,6 +57,6 @@ var server = http.createServer(function (req, res) {
 	});
 });
 
-server.listen(port, url);
+server.listen(port, host);
 
-console.log('Server running at http://' + url + ":" + port);
+console.log('Server running at http://' + host + ":" + port);
