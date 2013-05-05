@@ -1,5 +1,6 @@
 {
     "name": "spotify",
     "cmd": "spotify",
+    "index": "index.html",
     "methods": ["play", "pause", "next", "prev", "status"]
 }

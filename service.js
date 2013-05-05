@@ -4,6 +4,20 @@ var fs = require('fs'),
     director = require('director');
 
 
+function makeGet(service) {
+	return function () {
+		var filename = './services/' + service.name + "/" + (service.index || "index.html");
+		fs.readFile(filename, function (err, data) {
+			if (err) {
+				this.res.writeHead(404, { 'Content-Type': 'text/plain' });
+				this.res.end('Not Found ' + filename);
+			} else {
+				this.res.writeHead(200, { 'Content-Type': 'text/html' });
+				this.res.end(data);
+			}
+		}.bind(this));
+	};
+}
 
 function makePost(service) {
 	return function () {
@@ -19,11 +33,27 @@ function makePost(service) {
 	};
 }
 
+function renderService(service) {
+	return '<a href="'+service.name+'">'+service.name+'</a>';
+}
+
+function renderServices(services) {
+	return '<ul><li>' + services.map(renderService).join('</li><li>') + '</li></ul>';
+}
+
+function renderIndex(services) {
+	var head = '';
+	var body = renderServices(services);
+
+	return "<html><head>"+head+"<head><body>"+body+"</body></html>";
+}
+
 function createRouter(services) {
 
 	function merge(obj, service) {
 
 		obj['/'+service.name] = {
+			get: makeGet(service),
 			post: makePost(service)
 		};
 
@@ -32,12 +62,22 @@ function createRouter(services) {
 
 	var table = services.reduce(merge, {});
 
+	table['/'] = {
+		get: function () {
+			this.res.writeHead(200, { 'Content-Type': 'text/html' });
+			this.res.end(renderIndex(services));
+		}
+	};
+
+	console.log(table);
+
 	return new director.http.Router(table);
 }
 
 function createService (options) {
 
 	var name = options.name;
+	var index = options.index;
 	var cmd = options.cmd;
 
 	function post (data, callback) {
@@ -69,6 +109,7 @@ function createService (options) {
 	}
 
 	return {
+		index: index,
 		name: name,
 		post: post
 	};
