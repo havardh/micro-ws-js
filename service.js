@@ -21,6 +21,13 @@ function makeGet(service) {
 
 function makePost(service) {
 	return function () {
+		// This is a hack
+		if (this.req.files) {
+			var path = this.req.files.image.path;
+			var filename = '"./' + path + '"';
+			this.req.body.arg = filename;
+		}
+
 		service.post(this.req.body, function (err, res) {
 			if (err) {
 				this.res.writeHead(400, { 'Content-Type': 'application/json' });
@@ -86,7 +93,7 @@ function createService (options) {
 
 	function post (data, callback) {
 		var methods = options.methods;
-
+		console.log(data);
 		/*
 		if (!data || !data.method) {
 			callback({ msg: 'Must provide { method: <method> } as argument' });
