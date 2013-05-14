@@ -1,0 +1,5 @@
+{
+    "name": "file",
+    "program": {"darwin": "./services/file/file"},
+    "methods": ["file"]
+}
