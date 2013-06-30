@@ -37,8 +37,10 @@ int main(int argc, char *argv[]) {
 		keycode = VK_BACK;
 	} else if (strcmp(input, "tab") == 0) {
 		keycode = VK_TAB;
-	} else if (strcmp(input, "caps") == 0) {
+	} else if (strcmp(input, "caps lock") == 0) {
 		keycode = VK_CAPITAL;
+	} else if (strcmp(input, "space") == 0) {
+		keycode = VK_SPACE;
 	}
 
 	if (keycode != 0) {
