@@ -48,32 +48,6 @@ app.configure(function () {
 	}));
 	app.use(middleware);
 });
-/*/
-var server = http.createServer(function (req, res) {
-	req.chunks = [];
-	req.on('data', function (chunk) {
-		req.chunks.push(chunk.toString());
-	});
-
-	router.dispatch(req, res, function (err) {
-
-		var file, url = req.url;
-
-		try {
-			file = fs.readFileSync('./' + url);
-			res.writeHead(200, { 'Content-Type': 'text/html' });
-			res.end(file);
-		} catch(e) {
-			res.writeHead(404);
-			res.end();
-		}
-
-		console.log('Served', req.url);
-	});
-});
-
-server.listen(port, host);
-*/
 
 http.createServer(app).listen(port, host, function () {
 	console.log('Server running at http://' + host + ":" + port);
