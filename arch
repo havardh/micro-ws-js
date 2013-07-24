@@ -1,0 +1,4 @@
+Lag 1 - Webservice (server.js)
+Lag 2 - Dispatcher (service.js)
+Lag 3 - Application wrapper (config.json + executable)
+Lag 4 - Applications (whatever)
