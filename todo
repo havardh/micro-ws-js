@@ -1,0 +1,16 @@
+1. Autentisering
+- Grupper + Brukere
+- Service anngir bruker, gruppe og tilganger. (root, audio, 666), kan gies for hver method og for app.
+- Super + Gjest som standard
+- Temp bruker med token
+
+2. File Service
+- Legg til ls og get, har putish.
+
+3. Barcode Service
+- Generell lag barcode for ...
+- Vis barcode for Devicens URL + token
+
+4. Spotify Service
+- Lookup
+- Show/Add to queue
