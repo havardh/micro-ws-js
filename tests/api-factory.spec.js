@@ -37,8 +37,6 @@ describe('api-factory', function () {
 
 	describe('api', function () {
 
-
-
 		it('should contain get method', function () {
 			var api = ApiFactory.create(this.serviceMock, this.processMock);
 
@@ -46,6 +44,11 @@ describe('api-factory', function () {
 		});
 
 		describe('get', function () {
+
+			beforeEach(function () {
+				this.api = ApiFactory.create(this.serviceMock, this.processMock);
+			});
+
 
 			it('should be on root when no methods', function() {
 				this.serviceMock.methods = undefined;
@@ -55,11 +58,50 @@ describe('api-factory', function () {
 			});
 
 			it('should call underlying program', function() {
-				var api = ApiFactory.create(this.serviceMock, this.processMock);
 
-				api['/file/get'].get();
+				this.api['/file/get'].get();
 
-				expect(this.processMock.exec).toHaveBeenCalledWith('file get');
+				expect(this.processMock.exec.mostRecentCall.args[0]).toBe('file get');
+			});
+
+			it('should pass along parameters', function() {
+
+				this.api['/file/get'].get({
+					name: 'test'
+				});
+
+				expect(this.processMock.exec.mostRecentCall.args[0]).toContain("-name test");
+
+			});
+
+			describe('callback', function () {
+
+				beforeEach(function () {
+					this.callback = jasmine.createSpy();
+					this.api['/file/get'].get(null, this.callback);
+
+					this.processCallback = this.processMock.exec.mostRecentCall.args[1];
+
+				});
+
+				it('should be called with result', function() {
+
+					var stdout = 'stdout';
+					var stderr = 'stderr';
+					this.processCallback(null, stdout, stderr);
+
+					expect(this.callback).toHaveBeenCalled();
+				});
+
+				it('should be called with error', function() {
+					var stdout = 'stdout';
+					var stderr = 'stderr';
+					this.processCallback({}, stdout, stderr);
+
+					var err = this.callback.mostRecentCall.args[0];
+					expect(err).toBeDefined();
+				});
+
 			});
 
 		});

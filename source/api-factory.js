@@ -1,3 +1,11 @@
+function createArgs(data) {
+	var args = '';
+	for (var parameter in data) {
+		args += ' -' + parameter + ' ' + data[parameter];
+	}
+	return args;
+}
+
 function create(service, process) {
 
 	if (!service || !service.name || !service.program) {
@@ -8,27 +16,33 @@ function create(service, process) {
 		throw new Error('Expected a Process');
 	}
 
-	var api = [];
+	function exec(program, data, callback) {
+		var args = createArgs(data);
 
+		process.exec(program + args, callback);
+	}
+
+	function makeGet(url) {
+		return function (data, callback) {
+			exec(url, data, callback);
+		};
+	}
+
+	var api = [];
 	if (service.methods) {
 		service.methods.map(function (method) {
 			api['/' + service.name + '/' + method] = {
-				get: function () {
-					process.exec(service.program + ' ' + method);
-				}
+				get: makeGet(service.program + ' ' + method)
 			};
 		});
 	} else	{
 		api['/' + service.name] = {
-			get: function () {
-				process.exec(service.program);
-			}
+			get: makeGet(service.program)
 		};
 	}
 
 	return api;
 };
-
 
 module.exports = {
 	create: create
