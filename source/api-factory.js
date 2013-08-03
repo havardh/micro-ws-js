@@ -6,6 +6,22 @@ function createArgs(data) {
 	return args;
 }
 
+function createApi(service, makeGet) {
+	var api = [];
+	if (service.methods) {
+		service.methods.map(function (method) {
+			api['/' + service.name + '/' + method] = {
+				get: makeGet(service.program + ' ' + method)
+			};
+		});
+	} else	{
+		api['/' + service.name] = {
+			get: makeGet(service.program)
+		};
+	}
+	return api;
+}
+
 function create(service, process) {
 
 	if (!service || !service.name || !service.program) {
@@ -28,20 +44,7 @@ function create(service, process) {
 		};
 	}
 
-	var api = [];
-	if (service.methods) {
-		service.methods.map(function (method) {
-			api['/' + service.name + '/' + method] = {
-				get: makeGet(service.program + ' ' + method)
-			};
-		});
-	} else	{
-		api['/' + service.name] = {
-			get: makeGet(service.program)
-		};
-	}
-
-	return api;
+	return createApi(service, makeGet);
 };
 
 module.exports = {

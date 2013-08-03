@@ -49,7 +49,6 @@ describe('api-factory', function () {
 				this.api = ApiFactory.create(this.serviceMock, this.processMock);
 			});
 
-
 			it('should be on root when no methods', function() {
 				this.serviceMock.methods = undefined;
 				var api = ApiFactory.create(this.serviceMock, this.processMock);
