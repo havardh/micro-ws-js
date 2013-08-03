@@ -14,7 +14,6 @@ describe('api-builder', function () {
 		}).toThrow(new Error('Expected a ServiceLoader'));
 	});
 
-
 	it('should expect a apiFactory', function() {
 
 		expect(function () {
@@ -70,7 +69,6 @@ describe('api-builder', function () {
 
 			expect(serviceApis.length).toBe(2);
 		});
-
 
 	});
 

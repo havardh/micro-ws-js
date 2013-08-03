@@ -15,15 +15,19 @@ function validateSpecification(spec) {
 
 }
 
+function create(spec) {
+
+	validateSpecification(spec);
+
+	var service = new Service();
+
+	service.name = spec.name;
+	service.program = spec.program;
+
+	return service;
+
+}
+
 module.exports = {
-	create: function (spec) {
-		validateSpecification(spec);
-
-		var service = new Service();
-
-		service.name = spec.name;
-		service.program = spec.program;
-
-		return service;
-	}
+	create: create
 };

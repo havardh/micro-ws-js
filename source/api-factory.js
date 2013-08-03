@@ -1,4 +1,4 @@
-module.exports.create = function (service, process) {
+function create(service, process) {
 
 	if (!service || !service.name || !service.program) {
 		throw new Error('Expected a Service');
@@ -9,6 +9,7 @@ module.exports.create = function (service, process) {
 	}
 
 	var api = [];
+
 	if (service.methods) {
 		service.methods.map(function (method) {
 			api['/' + service.name + '/' + method] = {
@@ -20,4 +21,9 @@ module.exports.create = function (service, process) {
 	}
 
 	return api;
+};
+
+
+module.exports = {
+	create: create
 };

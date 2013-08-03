@@ -1,4 +1,4 @@
-module.exports = function (fileSystem) {
+function FileService(fileSystem) {
 
 	if (!fileSystem || !fileSystem.readFileSync) {
 		throw new Error('FileSystem object must be provided');
@@ -12,4 +12,6 @@ module.exports = function (fileSystem) {
 		return fileSystem.readdirSync(folder);
 	};
 
-};
+}
+
+module.exports = FileService;

@@ -1,4 +1,4 @@
-module.exports = function (serviceLoader, apiFactory, process) {
+function ApiBuilder(serviceLoader, apiFactory, process) {
 
 	if (!serviceLoader || !serviceLoader.load) {
 		throw new Error('Expected a ServiceLoader');
@@ -29,3 +29,5 @@ module.exports = function (serviceLoader, apiFactory, process) {
 	};
 
 };
+
+module.exports = ApiBuilder;

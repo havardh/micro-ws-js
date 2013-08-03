@@ -1,10 +1,4 @@
-function makeServiceConfigReader(fileService, root) {
-	return function readServiceConfigFile(service) {
-		return JSON.parse(fileService.read(root + '/' + service + '/config.json'));
-	};
-}
-
-module.exports = function (fileService, serviceFactory) {
+function ServiceLoader(fileService, serviceFactory) {
 
 	if (!fileService || !fileService.read || !fileService.ls)
 		throw new Error('Expects a FileService');
@@ -36,3 +30,11 @@ module.exports = function (fileService, serviceFactory) {
 	};
 
 };
+
+function makeServiceConfigReader(fileService, root) {
+	return function readServiceConfigFile(service) {
+		return JSON.parse(fileService.read(root + '/' + service + '/config.json'));
+	};
+}
+
+module.exports = ServiceLoader;
