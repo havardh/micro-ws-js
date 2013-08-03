@@ -1,6 +1,8 @@
 describe('api-builder', function () {
 
 	var ApiBuilder = require('../source/api-builder.js');
+	var sinon = require('sinon');
+	require('jasmine-sinon');
 
 	beforeEach(function () {
 		this.serviceLoader = { load: function () { } };
@@ -39,7 +41,7 @@ describe('api-builder', function () {
 			);
 			this.service = {};
 			spyOn(this.serviceLoader, 'load').andReturn([this.service]);
-			spyOn(this.apiFactory, 'create').andReturn({});
+			spyOn(this.apiFactory, 'create').andReturn([]);
 		});
 
 
@@ -63,11 +65,40 @@ describe('api-builder', function () {
 		});
 
 		it('should return service api', function() {
-			this.serviceLoader.load.andReturn([{}, {}]);
+			this.serviceLoader.load.andReturn([ { a: 1 }, { b: 1} ]);
+
+			var returnValues = [
+				{'/1': function () {}},
+				{'/2': function () {}}
+			];
+			var stub = this.apiFactory.create = function () {
+				if (!this.calls) { this.calls = 0; }
+				return returnValues[this.calls++];
+			};
 
 			var serviceApis = this.apiBuilder.build();
 
-			expect(serviceApis.length).toBe(2);
+			expect(serviceApis['/1']).toBeDefined();
+		});
+
+
+		it('should merge service tables', function() {
+			this.serviceLoader.load.andReturn([ { a:1 }, { c:1 } ]);
+
+			var returnValues = [
+				{'/1': function () {}, '/3': function () {}},
+				{'/2': function () {}}
+			];
+			var stub = this.apiFactory.create = function () {
+				if (!this.calls) { this.calls = 0; }
+				return returnValues[this.calls++];
+			};
+
+			var serviceApis = this.apiBuilder.build();
+
+			expect(serviceApis['/1']).toBeDefined();
+			expect(serviceApis['/2']).toBeDefined();
+			expect(serviceApis['/3']).toBeDefined();
 		});
 
 	});
