@@ -13,8 +13,8 @@ describe('userdb', function () {
 		});
 	});
 
-	var UserDB = require('../userdb.js');
-	var User = require('../user.js');
+	var UserDB = require('../source/userdb.js');
+	var User = require('../source/user.js');
 
 	it('should retreive users by username', function () {
 		var user = new User();

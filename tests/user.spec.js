@@ -1,5 +1,5 @@
 describe('user', function () {
-	var User = require('../user.js');
+	var User = require('../source/user.js');
 
 	it('should authenticate user with correct password', function () {
 		var user = new User('pass');
