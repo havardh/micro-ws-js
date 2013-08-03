@@ -1,4 +1,4 @@
-var Service = require('./service.js').constructor;
+var Service = require('./service.js');
 
 function validateSpecification(spec) {
 	if (!spec) {

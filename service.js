@@ -1,7 +1,9 @@
 var fs = require('fs'),
-    sys = require('sys'),
-    exec = require('child_process').exec,
-    director = require('director');
+		sys = require('sys'),
+		exec = require('child_process').exec,
+		director = require('director'),
+		auth = require('./source/authenticate.js'),
+		User = require('./source/user.js');
 
 
 function makeGet(service) {
@@ -93,7 +95,7 @@ function createService (options) {
 
 	function post (data, callback) {
 		var methods = options.methods;
-		console.log(data);
+
 		/*
 		if (!data || !data.method) {
 			callback({ msg: 'Must provide { method: <method> } as argument' });
@@ -159,3 +161,9 @@ function loadServices(config) {
 module.exports.createRouter = createRouter;
 module.exports.listConfigurations = listConfigurations;
 module.exports.loadServices = loadServices;
+
+function Service() {
+
+}
+
+module.exports.constructor = Service;

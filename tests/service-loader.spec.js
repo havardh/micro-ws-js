@@ -1,7 +1,7 @@
 describe('service-loader', function () {
 
-	var Service = require('../service.js').constructor;
-	var ServiceLoader = require('../service-loader.js');
+	var Service = require('../source/service.js');
+	var ServiceLoader = require('../source/service-loader.js');
 
 	beforeEach(function() {
 		this.addMatchers({

@@ -1,10 +1,10 @@
 var di = require('di');
 
-var FileService = require('./file-service.js');
-var ServiceFactory = require('./service-factory.js');
-var ServiceLoader = require('./service-loader.js');
-var Service = require('./service.js').constructor;
-var ApiFactory = require('./api-factory.js');
+var FileService = require('./source/file-service.js');
+var ServiceFactory = require('./source/service-factory.js');
+var ServiceLoader = require('./source/service-loader.js');
+var Service = require('./source/service.js').constructor;
+var ApiFactory = require('./source/api-factory.js');
 var fs = require('fs');
 var process = require('child_process');
 

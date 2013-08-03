@@ -1,12 +1,12 @@
 var port, host,
 
-    express = require('express'),
-    mustache = require('mustache'),
-    service = require('./service.js'),
-    fs = require('fs'),
-    http = require('http'),
-    sys = require('sys'),
-    exec = require('child_process').exec;
+		express = require('express'),
+		mustache = require('mustache'),
+		service = require('./service.js'),
+		fs = require('fs'),
+		http = require('http'),
+		sys = require('sys'),
+		exec = require('child_process').exec;
 
 (function () {
 	var file = fs.readFileSync('config.json');
@@ -19,7 +19,6 @@ function puts(error, stdout, stderr) { sys.puts(stdout); }
 
 var Configurations = service.listConfigurations();
 var Services = service.loadServices(Configurations);
-
 
 var app = express();
 var router = service.createRouter(Services);
