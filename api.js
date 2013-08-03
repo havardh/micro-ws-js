@@ -26,4 +26,14 @@ injector.invoke(function (apiBuilder) {
 
 	var api = apiBuilder.build('services');
 
+	console.log(api);
+
+	api['/spotify/play'].get('test', function (err, stdout, stderr) {
+		console.log('err: ' + err);
+		console.log('stdout: ' + stdout);
+		console.log('stderr: ' + stderr);
+	});
+
+
+
 });
