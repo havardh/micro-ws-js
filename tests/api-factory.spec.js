@@ -37,6 +37,8 @@ describe('api-factory', function () {
 
 	describe('api', function () {
 
+
+
 		it('should contain get method', function () {
 			var api = ApiFactory.create(this.serviceMock, this.processMock);
 
@@ -44,6 +46,13 @@ describe('api-factory', function () {
 		});
 
 		describe('get', function () {
+
+			it('should be on root when no methods', function() {
+				this.serviceMock.methods = undefined;
+				var api = ApiFactory.create(this.serviceMock, this.processMock);
+
+				expect(api['/file'].get).toBeDefined();
+			});
 
 			it('should call underlying program', function() {
 				var api = ApiFactory.create(this.serviceMock, this.processMock);

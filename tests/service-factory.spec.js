@@ -38,11 +38,12 @@ describe('service-factory', function () {
 
 	it('should add default properties to the service', function() {
 		var service = ServiceFactory.create({
-			name: "name", program: "prog"
+			name: "name", program: "prog", methods: ['exec']
 		});
 
 		expect(service.name).toBe('name');
 		expect(service.program).toBe('prog');
+		expect(service.methods).toEqual(['exec']);
 	});
 
 });

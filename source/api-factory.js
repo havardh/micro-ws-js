@@ -18,6 +18,12 @@ function create(service, process) {
 				}
 			};
 		});
+	} else	{
+		api['/' + service.name] = {
+			get: function () {
+				process.exec(service.program);
+			}
+		};
 	}
 
 	return api;

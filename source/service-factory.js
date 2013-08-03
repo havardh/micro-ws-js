@@ -23,6 +23,7 @@ function create(spec) {
 
 	service.name = spec.name;
 	service.program = spec.program;
+	service.methods = spec.methods;
 
 	return service;
 
