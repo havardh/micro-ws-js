@@ -25,6 +25,5 @@ var injector = new di.Injector([module]);
 injector.invoke(function (apiBuilder) {
 
 	var api = apiBuilder.build('services');
-	console.log(api);
 
 });
