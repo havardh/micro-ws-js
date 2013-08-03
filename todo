@@ -14,9 +14,8 @@
 4. Spotify Service
 - Lookup
 - Show/Add to queue
+- Play, Pause, Prev, Next
 
 5. Testing
 - Appwrapper verifyer
 - Core modules tests
-
-- Legg til service.methods
